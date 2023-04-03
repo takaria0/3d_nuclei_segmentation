@@ -63,6 +63,12 @@ For example, by using `pandas.read_pickle()`, you can get this segmentation resu
 
 <img width="1174" alt="Screen Shot 2023-04-03 at 11 21 50" src="https://user-images.githubusercontent.com/39676181/229397269-ef6e4ed7-7ff5-4e25-b20e-c5ac62b39748.png">
 
+## Debug
+
+In `settings.json`, you can set `debug: true` and you can visualize the segmentation process step by step like below using `napari` library. For more info, please have a look at https://napari.org/stable/.
+
+
+<img width="1680" alt="Screen Shot 2023-04-03 at 11 31 05" src="https://user-images.githubusercontent.com/39676181/229398400-92bf10c6-c63a-4970-be05-571d76603531.png">
 
 
 ## Troubleshooting
