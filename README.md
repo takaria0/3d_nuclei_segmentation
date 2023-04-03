@@ -40,8 +40,12 @@ python3 main.py
 
 ## See the Result
 
+Generated files are like these.
+
+<img width="605" alt="Screen Shot 2023-04-03 at 11 25 51" src="https://user-images.githubusercontent.com/39676181/229397675-2ba47320-c272-4a66-9f98-ff7c95e73581.png">
+
 You can see the results in your output_dir. It contains `.pkl` file for later your analysis. The `.pkl` file can be loaded using Python pickle library.
-It contains properties that you set in the `settings.json` for each nucleus segmented in the image.
+It contains properties that you set in the `settings.json` for each nucleus segmented in the image. Also, the `settings.json` is saved to check what parameters you used in the analysis. `.npy` file is a segmented 3D image in `numpy` format, each nucleus region is annotated as different integers. The `.csv` file is not needed if you use `.pkl` file, as it is more handy for Python. But in case you don't use Python for post processing, you can use `.csv`.
 
 ```json
   "properties": [
