@@ -1,0 +1,9 @@
+__pycache__
+.DS_Store
+
+*_app.py
+test.py
+*.csv
+
+settings.json
+README.dev.md

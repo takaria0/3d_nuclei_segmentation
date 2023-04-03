@@ -1,0 +1,125 @@
+{
+  // THIS IS A SETTING FILE FOR THE SEGMENTATION
+  // YOU NEED TO SPECIFY OPTIONS BELOW TO EFFECTIVELY SEGMENT YOUR DATA
+
+  // specify your input image path
+  // any single channle 3d image is supported e.g. '3d_cell_nuclei.tif'　(.tif is recommended)
+  "img_path": ".../spheroid.tif",
+
+  // specify output directory
+  // the results will be saved in the directory specified by this parameter
+  // output data are, computed properties (.pkl and .csv, if analysis is true), segmented image (.npy), and settings.json of the current run.
+  "output_dir": ".../output",
+
+  // if debug is true, the segmentation process is displayed on another window (napari with PyQt5)
+  "debug": false,
+  // if save is true, save the segmentation results
+  "save": true,
+
+  // use the whole images or not
+  // For debug, set use_all as false. Then it uses slices from start_slice to end_slice, which makes the computation faster.
+  "use_all": true,
+  "start_slice": 0,
+  "end_slice": 100,
+
+  // if true, post process the segmentation results
+  "analysis": true,
+  // properties used for post processing, available properties are:
+  // ["area", "area_bbox", "area_convex", "area_filled", "axis_major_length", "axis_minor_length", "bbox", "centroid", "centroid_local", "coords", "equivalent_diameter_area", "euler_number", "extent", "feret_diameter_max", "image", "image_convex", "image_filled", "inertia_tensor", "inertia_tensor_eigvals", "label", "moments", "moments_central", "moments_normalized", "slice", "solidity"]
+  // see the details at https://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.regionprops
+  "properties": [
+    "area",
+    "centroid",
+    "axis_major_length",
+    "axis_minor_length",
+    "image",
+    "inertia_tensor_eigvals",
+    "moments_central"
+  ],
+
+  // this is a sequence of segmentation process
+  // runs from the first to the last
+  // you can change the parameters of each algorthim and change the order of the process. You can even add your own algoritm.
+  // however, "watershed_segmentation" has to be the last. also, you cannot run 'binary_XXX' before the 'binarize' algorithm.
+  // if you are familiar with Python, you can implement your own algorithm in the Segmentation class, see Segmentation.your_new_algorithm()
+  // in the src/algorithms.py. Moreover, you can add other params to the existing algorithms. Since we heavily use other libraries such as skimage and scipy,
+  // you can find useful information on their websites.
+  "schedule": [
+    {
+      "method": "rescale_intensity",
+      "params": {
+        "min_quantile": 0.9,
+        "max_quantile": 0.99
+      }
+    },
+    {
+      "method": "deconvolution",
+      "params": {
+        "psf_size": 10,
+        "num_iter": 50
+      }
+    },
+    {
+      "method": "subtract_background_noise",
+      "params": {
+        "radius": 5
+      }
+    },
+
+    // {
+    //     "method": "edges",
+    //     "params": {
+    //         "method": "subtract",
+    //         "erosion": true,
+    //         "erosion_ball_size": 5
+    //     }
+    // },
+
+    // {
+    //     "method": "median_filter",
+    //     "params": {
+    //         "ball_size": 6
+    //     }
+    // },
+    {
+      "method": "binarize",
+      "params": {
+        "threshold": 0.1,
+        "block_size": 55
+      }
+    },
+    {
+      "method": "binary_remove_small_objects",
+      "params": {
+        "width": 10
+      }
+    },
+    {
+      "method": "binary_remove_small_holes",
+      "params": {
+        "width": 10
+      }
+    },
+    // {
+    //     "method": "binary_fill_holes",
+    //     "params": {
+    //     }
+    // },
+
+    {
+      "method": "watershed_segmentation",
+      "params": {
+        "ball_size": 5,
+        "min_distance": 8,
+        "compactness": 0.01
+      }
+    }
+    // {
+    //     "method": "your_new_algorithm",
+    //     "params": {
+    //         "param_1": 6,
+    //         "param_2": 8,
+    //     }
+    // },
+  ]
+}
