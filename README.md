@@ -21,11 +21,14 @@ pip3 install -r requirements.txt
 
 ## Set settings.json
 
-see `.settings_example.json`
-You need to set at least these properties to run the segmentation
+see `settings_example.json`
+
+1. You need to set at least these properties to run the segmentation
 
 - `"img_path": ".../spheroid.tif"`, Input 3D image, make sure it is single-channel 3D nuclei image (.tif).
 - `"output_dir": ".../output"`, Output directory to save the segmentation results.
+
+2. After you set the values, rename `settings_example.json` to `settings.json`.
 
 ## Run
 
@@ -51,6 +54,12 @@ It contains properties that you set in the `settings.json` for each nucleus segm
     "moments_central"
   ],
 ```
+
+For example, by using `pandas.read_pickle()`, you can get this segmentation results.
+
+<img width="1174" alt="Screen Shot 2023-04-03 at 11 21 50" src="https://user-images.githubusercontent.com/39676181/229397269-ef6e4ed7-7ff5-4e25-b20e-c5ac62b39748.png">
+
+
 
 ## Troubleshooting
 
